@@ -42,5 +42,5 @@ func UpdateTransaction(c *gin.Context) {
 
 // DeleteTransaction handles DELETE /transactions/:id
 func DeleteTransaction(c *gin.Context) {
-
+	strID := c.Param("id")
 }
