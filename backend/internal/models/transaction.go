@@ -24,12 +24,14 @@ func GetAllTransactions() []Transaction {
 }
 
 // Add a transaction
-func AddTransaction(t Transaction) {
+func AddTransaction(t Transaction) Transaction {
 	t.ID = nextID
 	nextID++
 	t.Date = time.Now()
 
 	transactions = append(transactions, t)
+
+	return t
 }
 
 // Remove a transaction by id
@@ -54,12 +56,12 @@ func GetTransaction(id int) (Transaction, error) {
 }
 
 // Update a transaction by id
-func UpdateTransaction(id int, updatedTransaction Transaction) error {
+func UpdateTransaction(id int, updatedTransaction Transaction) (Transaction, error) {
 	for i, transaction := range transactions {
 		if transaction.ID == id {
 			transactions[i] = updatedTransaction
-			return nil
+			return updatedTransaction, nil
 		}
 	}
-	return fmt.Errorf("failed to find transaction id: %v for update", id)
+	return nil, fmt.Errorf("failed to find transaction id: %v for update", id)
 }
