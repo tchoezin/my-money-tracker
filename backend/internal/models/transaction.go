@@ -6,12 +6,12 @@ import (
 )
 
 type Transaction struct {
-	ID          int
-	Amount      float64
-	Date        time.Time
-	Type        string // "income" or "expense"
-	Description string
-	Category    string
+	ID          int       `json:"id"`
+	Amount      float64   `json:"amount"`
+	Date        time.Time `json:"date"`
+	Type        string    `json:"type"` // "income" or "expense"
+	Description string    `json:"description"`
+	Category    string    `json:"category"`
 }
 
 // in-memory data store
@@ -59,9 +59,13 @@ func GetTransaction(id int) (Transaction, error) {
 func UpdateTransaction(id int, updatedTransaction Transaction) (Transaction, error) {
 	for i, transaction := range transactions {
 		if transaction.ID == id {
+			updatedTransaction.ID = id
+			if updatedTransaction.Date.IsZero() {
+				updatedTransaction.Date = transaction.Date
+			}
 			transactions[i] = updatedTransaction
 			return updatedTransaction, nil
 		}
 	}
-	return nil, fmt.Errorf("failed to find transaction id: %v for update", id)
+	return Transaction{}, fmt.Errorf("failed to find transaction id: %v for update", id)
 }

@@ -47,6 +47,7 @@ func CreateTransaction(c *gin.Context) {
 
 	if transaction.Amount <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Amount must be positive"})
+		return
 	}
 
 	created := models.AddTransaction(transaction)
